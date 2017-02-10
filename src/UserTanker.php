@@ -2,9 +2,9 @@
 
 namespace Arrilot\BitrixTankers;
 
-use Bitrix\Main\FileTable;
+use Bitrix\Main\UserTable;
 
-class FileTanker extends BitrixTanker
+class UserTanker extends BitrixTanker
 {
     /**
      * Fetch data for given ids.
@@ -15,7 +15,7 @@ class FileTanker extends BitrixTanker
     protected function fetch(array $ids)
     {
         $files = [];
-        $result = FileTable::getList([
+        $result = UserTable::getList([
             'filter' => ['ID' => $ids],
             'select' => $this->prepareSelect(),
         ]);
