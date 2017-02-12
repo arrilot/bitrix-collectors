@@ -1,9 +1,9 @@
 {
-  "name": "arrilot/bitrix-tankers",
+  "name": "arrilot/bitrix-collectors",
   "license": "MIT",
   "keywords": [
     "bitrix",
-    "tanker"
+    "collectors"
   ],
   "authors": [
     {
@@ -11,7 +11,7 @@
       "email": "nekrasov.ilya90@gmail.com"
     }
   ],
-  "homepage": "https://github.com/arrilot/bitrix-tankers",
+  "homepage": "https://github.com/arrilot/bitrix-collectors",
   "require": {
     "php": ">=5.6.4",
     "arrilot/collectors": "^0.1"

@@ -1,16 +1,16 @@
-[![Latest Stable Version](https://poser.pugx.org/arrilot/bitrix-tankers/v/stable.svg)](https://packagist.org/packages/arrilot/bitrix-tankers/)
+[![Latest Stable Version](https://poser.pugx.org/arrilot/bitrix-collectors/v/stable.svg)](https://packagist.org/packages/arrilot/bitrix-collectors/)
 
-# Мост для интеграции `arrilot/tankers` с 1C-Bitrix (В разработке)
+# Мост для интеграции `arrilot/collectors` с 1C-Bitrix (В разработке)
 
 ## Установка
 
-```composer require arrilot/bitrix-tankers```
+```composer require arrilot/bitrix-collectors```
 
 ## Использование
 
-Основа - [https://www.github.com/arrilot/tankers](https://www.github.com/arrilot/tankers)
+Основа - [https://www.github.com/arrilot/collectors](https://www.github.com/arrilot/collectors)
 
-Данный пакет реализует несколько наиболее востребованных в Битриксе "заправщиков" (tankers) 
+Данный пакет реализует несколько наиболее востребованных в Битриксе собирателей (collectors)
 
 Готовые танкеры:
 1. `Arrilot\BitrixTanker\FileTanker` - FileTable::getList
