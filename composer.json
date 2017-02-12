@@ -14,7 +14,7 @@
   "homepage": "https://github.com/arrilot/bitrix-tankers",
   "require": {
     "php": ">=5.6.4",
-    "arrilot/tankers": "^0.1"
+    "arrilot/collectors": "^0.1"
   },
   "autoload": {
     "psr-4": {
