@@ -4,25 +4,10 @@ namespace Arrilot\BitrixTankers;
 
 use Bitrix\Main\FileTable;
 
-class FileTanker extends BitrixTanker
+class FileTanker extends OrmTableTanker
 {
-    /**
-     * Fetch data for given ids.
-     *
-     * @param array $ids
-     * @return array
-     */
-    protected function fetch(array $ids)
+    protected function entityClassName()
     {
-        $files = [];
-        $result = FileTable::getList([
-            'filter' => ['ID' => $ids],
-            'select' => $this->prepareSelect(),
-        ]);
-        while ($row = $result->fetch()) {
-            $files[$row['ID']] = $row;
-        }
-
-        return $files;
+        return FileTable::class;
     }
 }

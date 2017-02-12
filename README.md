@@ -10,18 +10,22 @@
 
 Основа - [https://www.github.com/arrilot/tankers](https://www.github.com/arrilot/tankers)
 
-Данный пакет реализует несколько наиболее востребованных в Битриксе Заправщиков (Tankers) 
+Данный пакет реализует несколько наиболее востребованных в Битриксе "заправщиков" (tankers) 
 
+Готовые танкеры:
 1. `Arrilot\BitrixTanker\FileTanker` - FileTable::getList
-2. WIP `Arrilot\BitrixTanker\SectionTanker` - CIBlockSection::GetList
-3. WIP `Arrilot\BitrixTanker\ElementTanker` - CIBlockElement::GetList
+2. `Arrilot\BitrixTanker\SectionTanker` - SectionTable::getList
+3. `Arrilot\BitrixTanker\ElementTanker` - CIBlockElement::GetList + Fetch. Рекомендуется использовать инфоблоки 2.0, чтобы не было проблем с множественными свойствами.
 4. `Arrilot\BitrixTanker\UserTanker` - UserTable::getList
-5. WIP `Arrilot\BitrixTanker\TableTanker` - произвольная таблица (например от Highload-блока)
 
-Все танкеры поддерживают `$config['select']`, в котором можно указать массив `$arSelect`.
+Абстрактные классы-танкеры. От них можно наследоваться при разработке дополнительных танкеров.
+1. `Arrilot\BitrixTanker\TableTanker` - для случая когда данные хранятся в отдельной таблице и для неё НЕТ d7 orm класса. 
+2. `Arrilot\BitrixTanker\OrmTableTanker` - для случая когда данные хранятся в отдельной таблице и ЕСТЬ d7 orm класс. 
 
-Для `ElementTanker` в `$config['select']` можно указать `PROPS` как одно из значений массива.
-В этом случае будут выбраны все свойства элемента.
+Все танкеры поддерживают `->select([...])`, в котором можно указать массив `$select`, который потом будет передан в API битрикса.
+Аналогично в `->where(['...'])` можно указать `$filter`
+Исключение - `TableTanker`. Там в `->where()` нужно передавать строку а не массив-фильтр.
+Она будет подставлена в sql запрос без всякой дополнительный обработки.
 
 Для примера рассмотрим `FileTanker`
 ```php

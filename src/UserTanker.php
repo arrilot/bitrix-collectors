@@ -4,25 +4,10 @@ namespace Arrilot\BitrixTankers;
 
 use Bitrix\Main\UserTable;
 
-class UserTanker extends BitrixTanker
+class UserTanker extends OrmTableTanker
 {
-    /**
-     * Fetch data for given ids.
-     *
-     * @param array $ids
-     * @return array
-     */
-    protected function fetch(array $ids)
+    protected function entityClassName()
     {
-        $files = [];
-        $result = UserTable::getList([
-            'filter' => ['ID' => $ids],
-            'select' => $this->prepareSelect(),
-        ]);
-        while ($row = $result->fetch()) {
-            $files[$row['ID']] = $row;
-        }
-
-        return $files;
+        return UserTable::class;
     }
 }
