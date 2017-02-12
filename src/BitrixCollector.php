@@ -1,10 +1,10 @@
 <?php
 
-namespace Arrilot\BitrixTankers;
+namespace Arrilot\BitrixCollectors;
 
-use Arrilot\Tankers\Tanker;
+use Arrilot\Collectors\Collector;
 
-abstract class BitrixTanker extends Tanker
+abstract class BitrixCollector extends Collector
 {
     /**
      * Field suffix.

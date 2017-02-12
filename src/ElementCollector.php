@@ -1,11 +1,11 @@
 <?php
 
-namespace Arrilot\BitrixTankers;
+namespace Arrilot\BitrixCollectors;
 
 
 use CIBlockElement;
 
-class ElementTanker extends BitrixTanker
+class ElementCollector extends BitrixCollector
 {
     /**
      * Fetch data for given ids.
@@ -13,7 +13,7 @@ class ElementTanker extends BitrixTanker
      * @param array $ids
      * @return array
      */
-    protected function fetch(array $ids)
+    protected function getByIds(array $ids)
     {
         $items = [];
         $res = CIBlockElement::GetList(["ID" => "ASC"], $this->buildFilter($ids), false, false, $this->select);

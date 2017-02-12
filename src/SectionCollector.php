@@ -1,10 +1,10 @@
 <?php
 
-namespace Arrilot\BitrixTankers;
+namespace Arrilot\BitrixCollectors;
 
 use Bitrix\Iblock\SectionTable;
 
-class SectionTanker extends OrmTableTanker
+class SectionCollector extends OrmTableCollector
 {
     protected function entityClassName()
     {

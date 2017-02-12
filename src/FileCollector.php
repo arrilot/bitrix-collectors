@@ -1,10 +1,10 @@
 <?php
 
-namespace Arrilot\BitrixTankers;
+namespace Arrilot\BitrixCollectors;
 
 use Bitrix\Main\FileTable;
 
-class FileTanker extends OrmTableTanker
+class FileCollector extends OrmTableCollector
 {
     protected function entityClassName()
     {

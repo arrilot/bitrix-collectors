@@ -1,10 +1,10 @@
 <?php
 
-namespace Arrilot\BitrixTankers;
+namespace Arrilot\BitrixCollectors;
 
 use Bitrix\Main\UserTable;
 
-class UserTanker extends OrmTableTanker
+class UserCollector extends OrmTableCollector
 {
     protected function entityClassName()
     {

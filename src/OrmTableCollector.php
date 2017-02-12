@@ -1,8 +1,8 @@
 <?php
 
-namespace Arrilot\BitrixTankers;
+namespace Arrilot\BitrixCollectors;
 
-abstract class OrmTableTanker extends BitrixTanker
+abstract class OrmTableCollector extends BitrixCollector
 {
     /**
      * Fields that should be selected.
@@ -24,7 +24,7 @@ abstract class OrmTableTanker extends BitrixTanker
      * @param array $ids
      * @return array
      */
-    protected function fetch(array $ids)
+    protected function getByIds(array $ids)
     {
         $items = [];
         $entity = $this->entityClassName();

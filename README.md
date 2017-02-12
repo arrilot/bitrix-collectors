@@ -1,6 +1,6 @@
 [![Latest Stable Version](https://poser.pugx.org/arrilot/bitrix-collectors/v/stable.svg)](https://packagist.org/packages/arrilot/bitrix-collectors/)
 
-# Мост для интеграции `arrilot/collectors` с 1C-Bitrix (В разработке)
+# Мост для интеграции `arrilot/collectors` с Битриксом (В разработке)
 
 ## Установка
 
@@ -12,33 +12,88 @@
 
 Данный пакет реализует несколько наиболее востребованных в Битриксе собирателей (collectors)
 
-Готовые танкеры:
-1. `Arrilot\BitrixTanker\FileTanker` - FileTable::getList
-2. `Arrilot\BitrixTanker\SectionTanker` - SectionTable::getList
-3. `Arrilot\BitrixTanker\ElementTanker` - CIBlockElement::GetList + Fetch. Рекомендуется использовать инфоблоки 2.0, чтобы не было проблем с множественными свойствами.
-4. `Arrilot\BitrixTanker\UserTanker` - UserTable::getList
+Готовые коллекторы:
+ 1. `Arrilot\BitrixCollectors\FileCollector` - FileTable::getList
+ 2. `Arrilot\BitrixCollectors\SectionCollector` - SectionTable::getList
+ 3. `Arrilot\BitrixCollectors\ElementCollector` - CIBlockElement::GetList + Fetch. Рекомендуется использовать инфоблоки 2.0, чтобы не было проблем с множественными свойствами.
+ 4. `Arrilot\BitrixCollectors\UserCollector` - UserTable::getList
 
-Абстрактные классы-танкеры. От них можно наследоваться при разработке дополнительных танкеров.
-1. `Arrilot\BitrixTanker\TableTanker` - для случая когда данные хранятся в отдельной таблице и для неё НЕТ d7 orm класса. 
-2. `Arrilot\BitrixTanker\OrmTableTanker` - для случая когда данные хранятся в отдельной таблице и ЕСТЬ d7 orm класс. 
+Абстрактные классы-коллекторы. От них можно наследоваться при разработке дополнительных танкеров.
+ 1. `Arrilot\BitrixCollectors\TableCollector` - для случая когда данные хранятся в отдельной таблице и для неё НЕТ d7 orm класса. 
+ 2. `Arrilot\BitrixCollectors\OrmTableCollector` - для случая когда данные хранятся в отдельной таблице и ЕСТЬ d7 orm класс. 
 
-Все танкеры поддерживают `->select([...])`, в котором можно указать массив `$select`, который потом будет передан в API битрикса.
+Также как и с оригинальным пакетом цепочка методов следует заканчивать одним из двух методов:
+ 1. `get()` - для получения данных в одном новом массиве (возвращает его)
+ 2. `fill()` - добавляет данные непосредственно в коллекции-источники используя суффикс `_DATA`
+
+Все коллекторы поддерживают `->select([...])`, в котором можно указать массив `$select`, который передается в API битрикса.
 Аналогично в `->where(['...'])` можно указать `$filter`
-Исключение - `TableTanker`. Там в `->where()` нужно передавать строку а не массив-фильтр.
-Она будет подставлена в sql запрос без всякой дополнительный обработки.
+Исключение - `TableCollector`. Там в `->where()` нужно передавать строку, а не массив-фильтр.
+Она будет подставлена в sql запрос без дополнительный обработки.
 
-Для примера рассмотрим `FileTanker`
+Пример #1:
 ```php
-    use Arrilot\BitrixTanker\FileTanker;
+    use Arrilot\BitrixCollectors\FileCollector;
 
     $elements = [
         ['ID' => 1, 'PROPERTY_FILES_VALUE' => 1],
         ['ID' => 2, 'PROPERTY_FILES_VALUE' => [2, 1]],
     ];
     
-    $tanker = new FileTanker();
-    $tanker->collection($elements)->fields('PROPERTY_FILES_VALUE')->fill();
+    $tanker = new FileCollector();
+    $files = $tanker->collection($elements)->fields('PROPERTY_FILES_VALUE')->get();
+    var_dump($files);
+
+    // результат
+    /*
+        array:2 [▼
+          1 => array:13 [▼
+              "ID" => "1"
+              "TIMESTAMP_X" => "2017-02-10 17:35:17"
+              "MODULE_ID" => "iblock"
+              "HEIGHT" => "150"
+              "WIDTH" => "140"
+              "FILE_SIZE" => "15003"
+              "CONTENT_TYPE" => "image/png"
+              "SUBDIR" => "iblock/b03"
+              "FILE_NAME" => "avatar.png"
+              "ORIGINAL_NAME" => "avatar-gs.png"
+              "DESCRIPTION" => ""
+              "HANDLER_ID" => null
+              "EXTERNAL_ID" => "125dc3213f7ecde31124f3ebca7322b5"
+          ]
+          2 => array:13 [▼
+            "ID" => "2"
+            "TIMESTAMP_X" => "2017-02-10 17:35:30"
+            "MODULE_ID" => "iblock"
+            "HEIGHT" => "84"
+            "WIDTH" => "460"
+            "FILE_SIZE" => "4564"
+            "CONTENT_TYPE" => "image/png"
+            "SUBDIR" => "iblock/fcf"
+            "FILE_NAME" => "4881-03.png"
+            "ORIGINAL_NAME" => "4881-03.png"
+            "DESCRIPTION" => ""
+            "HANDLER_ID" => null
+            "EXTERNAL_ID" => "35906df62694b4ed5f150c468a1f5d72"
+          ]
+        ]
+    */
+```
+
+Пример #2:
+```php
+    use Arrilot\BitrixCollectors\FileCollector;
+
+    $elements = [
+        ['ID' => 1, 'PROPERTY_FILES_VALUE' => 1],
+        ['ID' => 2, 'PROPERTY_FILES_VALUE' => [2, 1]],
+    ];
     
+    $tanker = new FileCollector();
+    $tanker->collection($elements)->fields('PROPERTY_FILES_VALUE')->fill();
+    var_dump($elements);
+
     // результат
     /*
         array:2 [▼

@@ -1,12 +1,12 @@
 <?php
 
-namespace Arrilot\BitrixTankers;
+namespace Arrilot\BitrixCollectors;
 
 use Bitrix\Main\Application;
 use Bitrix\Main\DB\Connection;
 use LogicException;
 
-abstract class TableTanker extends BitrixTanker
+abstract class TableCollector extends BitrixCollector
 {
     /**
      * Fields that should be selected.
@@ -28,7 +28,7 @@ abstract class TableTanker extends BitrixTanker
      * @param array $ids
      * @return array
      */
-    protected function fetch(array $ids)
+    protected function getByIds(array $ids)
     {
         $items = [];
         $connection = Application::getConnection();
@@ -73,7 +73,7 @@ abstract class TableTanker extends BitrixTanker
     public function where($where)
     {
         if (!is_string($where)) {
-            throw new LogicException('A string should be passed to `where()` in TableTanker');
+            throw new LogicException('A string should be passed to `where()` in TableCollector');
         }
 
         $this->where = $where;
@@ -87,7 +87,7 @@ abstract class TableTanker extends BitrixTanker
      * @param array $select
      * @return $this
      */
-    public function select(array $select)
+    public function select($select)
     {
         if (!in_array('ID', $select)) {
             array_unshift($select, 'ID');
