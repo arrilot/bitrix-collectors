@@ -13,7 +13,7 @@ class ElementCollector extends BitrixCollector
      * @param array $ids
      * @return array
      */
-    protected function getByIds(array $ids)
+    protected function getList(array $ids)
     {
         $items = [];
         $res = CIBlockElement::GetList(["ID" => "ASC"], $this->buildFilter($ids), false, false, $this->select);

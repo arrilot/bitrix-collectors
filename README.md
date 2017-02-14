@@ -10,7 +10,7 @@
 
 Основа - [https://www.github.com/arrilot/collectors](https://www.github.com/arrilot/collectors)
 
-Данный пакет реализует несколько наиболее востребованных в Битриксе собирателей (collectors)
+Данный пакет реализует несколько наиболее востребованных в Битриксе коллекторов (collectors)
 
 Готовые коллекторы:
  1. `Arrilot\BitrixCollectors\FileCollector` - FileTable::getList
@@ -22,16 +22,14 @@
  1. `Arrilot\BitrixCollectors\TableCollector` - для случая когда данные хранятся в отдельной таблице и для неё НЕТ d7 orm класса. 
  2. `Arrilot\BitrixCollectors\OrmTableCollector` - для случая когда данные хранятся в отдельной таблице и ЕСТЬ d7 orm класс. 
 
-Также как и с оригинальным пакетом цепочка методов следует заканчивать одним из двух методов:
- 1. `get()` - для получения данных в одном новом массиве (возвращает его)
- 2. `fill()` - добавляет данные непосредственно в коллекции-источники используя суффикс `_DATA`
+Также как и с оригинальным пакетом цепочка методов должна заканчиваться методом `performQuery()` который выполняем getList запрос в БД и возвращает результат.
 
 Все коллекторы поддерживают `->select([...])`, в котором можно указать массив `$select`, который передается в API битрикса.
 Аналогично в `->where(['...'])` можно указать `$filter`
 Исключение - `TableCollector`. Там в `->where()` нужно передавать строку, а не массив-фильтр.
 Она будет подставлена в sql запрос без дополнительный обработки.
 
-Пример #1:
+Пример:
 ```php
     use Arrilot\BitrixCollectors\FileCollector;
 
@@ -40,14 +38,14 @@
         ['ID' => 2, 'PROPERTY_FILES_VALUE' => [2, 1]],
     ];
     
-    $tanker = new FileCollector();
-    $files = $tanker->collection($elements)->fields('PROPERTY_FILES_VALUE')->get();
+    $collector = new FileCollector();
+    $files = $collector->scanCollection($elements, 'PROPERTY_FILES_VALUE')->performQuery();
     var_dump($files);
 
     // результат
     /*
         array:2 [▼
-          1 => array:13 [▼
+            1 => array:13 [▼
               "ID" => "1"
               "TIMESTAMP_X" => "2017-02-10 17:35:17"
               "MODULE_ID" => "iblock"
@@ -61,97 +59,22 @@
               "DESCRIPTION" => ""
               "HANDLER_ID" => null
               "EXTERNAL_ID" => "125dc3213f7ecde31124f3ebca7322b5"
-          ]
-          2 => array:13 [▼
-            "ID" => "2"
-            "TIMESTAMP_X" => "2017-02-10 17:35:30"
-            "MODULE_ID" => "iblock"
-            "HEIGHT" => "84"
-            "WIDTH" => "460"
-            "FILE_SIZE" => "4564"
-            "CONTENT_TYPE" => "image/png"
-            "SUBDIR" => "iblock/fcf"
-            "FILE_NAME" => "4881-03.png"
-            "ORIGINAL_NAME" => "4881-03.png"
-            "DESCRIPTION" => ""
-            "HANDLER_ID" => null
-            "EXTERNAL_ID" => "35906df62694b4ed5f150c468a1f5d72"
-          ]
-        ]
-    */
-```
-
-Пример #2:
-```php
-    use Arrilot\BitrixCollectors\FileCollector;
-
-    $elements = [
-        ['ID' => 1, 'PROPERTY_FILES_VALUE' => 1],
-        ['ID' => 2, 'PROPERTY_FILES_VALUE' => [2, 1]],
-    ];
-    
-    $tanker = new FileCollector();
-    $tanker->collection($elements)->fields('PROPERTY_FILES_VALUE')->fill();
-    var_dump($elements);
-
-    // результат
-    /*
-        array:2 [▼
-          0 => array:3 [▼
-            "ID" => 1
-            "PROPERTY_FILES_VALUE" => 1
-            "PROPERTY_FILES_VALUE_DATA" => array:13 [▼
-              "ID" => "1"
-              "TIMESTAMP_X" => "2017-02-10 17:35:17"
+           ],
+           2 => array:13 [▼
+              "ID" => "2"
+              "TIMESTAMP_X" => "2017-02-10 17:35:30"
               "MODULE_ID" => "iblock"
-              "HEIGHT" => "150"
-              "WIDTH" => "140"
-              "FILE_SIZE" => "15003"
+              "HEIGHT" => "84"
+              "WIDTH" => "460"
+              "FILE_SIZE" => "4564"
               "CONTENT_TYPE" => "image/png"
-              "SUBDIR" => "iblock/b03"
-              "FILE_NAME" => "avatar.png"
-              "ORIGINAL_NAME" => "avatar-gs.png"
+              "SUBDIR" => "iblock/fcf"
+              "FILE_NAME" => "4881-03.png"
+              "ORIGINAL_NAME" => "4881-03.png"
               "DESCRIPTION" => ""
               "HANDLER_ID" => null
-              "EXTERNAL_ID" => "125dc3213f7ecde31124f3ebca7322b5"
-            ]
-          ]
-          1 => array:3 [▼
-            "ID" => 2
-            "PROPERTY_FILES_VALUE" => array:2 [▶]
-            "PROPERTY_FILES_VALUE_DATA" => array:2 [▼
-              2 => array:13 [▼
-                "ID" => "2"
-                "TIMESTAMP_X" => "2017-02-10 17:35:30"
-                "MODULE_ID" => "iblock"
-                "HEIGHT" => "84"
-                "WIDTH" => "460"
-                "FILE_SIZE" => "4564"
-                "CONTENT_TYPE" => "image/png"
-                "SUBDIR" => "iblock/fcf"
-                "FILE_NAME" => "4881-03.png"
-                "ORIGINAL_NAME" => "4881-03.png"
-                "DESCRIPTION" => ""
-                "HANDLER_ID" => null
-                "EXTERNAL_ID" => "35906df62694b4ed5f150c468a1f5d72"
-              ]
-              1 => array:13 [▼
-                "ID" => "1"
-                "TIMESTAMP_X" => "2017-02-10 17:35:17"
-                "MODULE_ID" => "iblock"
-                "HEIGHT" => "150"
-                "WIDTH" => "140"
-                "FILE_SIZE" => "15003"
-                "CONTENT_TYPE" => "image/png"
-                "SUBDIR" => "iblock/b03"
-                "FILE_NAME" => "avatar.png"
-                "ORIGINAL_NAME" => "avatar.png"
-                "DESCRIPTION" => ""
-                "HANDLER_ID" => null
-                "EXTERNAL_ID" => "125dc3213f7ecde31124f3ebca7322b5"
-              ]
-            ]
-          ]
+              "EXTERNAL_ID" => "35906df62694b4ed5f150c468a1f5d72"
+           ]
         ]
     */
 ```

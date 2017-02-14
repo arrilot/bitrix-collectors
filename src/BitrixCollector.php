@@ -7,13 +7,6 @@ use Arrilot\Collectors\Collector;
 abstract class BitrixCollector extends Collector
 {
     /**
-     * Field suffix.
-     *
-     * @var string
-     */
-    protected $suffix = '_DATA';
-
-    /**
      * Fields that should be selected.
      *
      * @var mixed
