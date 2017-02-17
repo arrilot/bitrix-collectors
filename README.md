@@ -14,7 +14,7 @@
 Данный мост реализует несколько наиболее востребованных в Битриксе коллекторов (collectors)
 
 Готовые коллекторы:
- 1. `Arrilot\BitrixCollectors\FileCollector` - FileTable::getList
+ 1. `Arrilot\BitrixCollectors\FileCollector` - импользует внутри себя FileTable::getList из d7
  2. `Arrilot\BitrixCollectors\SectionCollector` - SectionTable::getList
  3. `Arrilot\BitrixCollectors\ElementCollector` - CIBlockElement::GetList + Fetch. Рекомендуется использовать инфоблоки 2.0, чтобы не было проблем с множественными свойствами.
  4. `Arrilot\BitrixCollectors\UserCollector` - UserTable::getList
