@@ -36,6 +36,17 @@ abstract class OrmTableCollector extends BitrixCollector
             $items[$row['ID']] = $row;
         }
 
+        return $this->transformItems($items);
+    }
+    
+    /**
+     * Transform items after fetch.
+     *
+     * @param array $items
+     * @return array
+     */
+    protected function transformItems(array $items)
+    {
         return $items;
     }
 }
