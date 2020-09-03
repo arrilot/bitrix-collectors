@@ -1,6 +1,11 @@
 [![Latest Stable Version](https://poser.pugx.org/arrilot/bitrix-collectors/v/stable.svg)](https://packagist.org/packages/arrilot/bitrix-collectors/)
 
-# Мост для интеграции `arrilot/collectors` с Битриксом (В разработке)
+# Данный пакет больше активно не поддерживается
+
+Причина - мы больше не используем Битрикс в своих проектах.
+Если вам интересен этот проект и вы хотите заняться его поддержкой - форкните его и создайте Issue в данном репозитории чтобы мы поместили здесь ссылку на форк.
+
+# Мост для интеграции `arrilot/collectors` с Битриксом
 
 ## Установка
 
